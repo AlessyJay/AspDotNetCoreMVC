@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Student>;
+@{
+    ViewData["Title"] = "Main page";
+}
+
+@if (Model.Count() > 0)
+{
+    <h1 class="text-center">Index</h1>
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>Student's ID</th>
+                <th>Student's Name</th>
+                <th>Student's Score</th>
+                <th>Student's Status</th>
+                <th class="text-primary">Edit</th>
+                <th class="text-danger">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td class="text-center">@student.ID</td>
+                    <td class="text-center">@student.Name</td>
+                    <td class="text-center">@student.Score</td>
+                    @if (student.Score >= 50)
+                    {
+                        <td><strong class="text-success">PASSED</strong></td>
+                    }
+                    else
+                    {
+                        <td><strong class="text-danger">NOT PASSED</strong></td>
+                    }
+                    <td>
+                        <a class="btn btn-primary bg-primary"
+                           asp-controller="Student"
+                           asp-action="Edit"
+                           asp-route-id="@student.ID">Edit</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger bg-danger"
+                           asp-controller="Student"
+                           asp-action="Delete"
+                           asp-route-id="@student.ID"
+                           onclick="return confirm('Are you sure to delete @student.Name')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-secondary">
+        There are no information about any students here.
+    </div>
+}
